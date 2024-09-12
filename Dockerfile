@@ -8,10 +8,9 @@ RUN apt-get update && apt-get -y install git cmake gcc g++ make pkgconf libncurs
 # Clone repo
 RUN git clone --recursive --depth=1 https://github.com/SoftEtherVPN/SoftEtherVPN.git && cd SoftEtherVPN
 
-# Build
-RUN cd /SoftEtherVPN && ./configure && make -j5 -C build
-
-# Copy files
-RUN cp -rp /SoftEtherVPN/build/vpnserver /usr/local/bin/ && cp -rp /SoftEtherVPN/build/vpncmd /usr/local/bin/ && cp -rp /SoftEtherVPN/build/hamcore.se2 /usr/local/bin/
+# Build and install
+# In arm64, sometimes errors occur while building.In my experience, if you build it again, it usually fix.
+RUN cd /SoftEtherVPN && ./configure && make -j5 -C build || make -j5 -C build 
+RUN cd /SoftEtherVPN && make -C install
 
 ENTRYPOINT ["vpnserver", "start"]
