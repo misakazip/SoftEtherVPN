@@ -10,7 +10,10 @@ RUN git clone --recursive --depth=1 https://github.com/SoftEtherVPN/SoftEtherVPN
 
 # Build and install
 # In arm64, sometimes errors occur while building.In my experience, if you build it again, it usually fix.
-RUN cd /SoftEtherVPN && ./configure && make -j5 -C build || make -j5 -C build 
+RUN cd /SoftEtherVPN && ./configure && make -j5 -C build || make -j5 -C build
 RUN cd /SoftEtherVPN && make -C install
+
+# Delete things you don't use anymore
+RUN apt remove --purge -y git && rm -rf /SoftEtherVPN
 
 ENTRYPOINT ["vpnserver", "start"]
