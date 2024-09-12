@@ -9,7 +9,7 @@ RUN apt-get update && apt-get -y install git cmake gcc g++ make pkgconf libncurs
 RUN git clone --recursive --depth=1 https://github.com/SoftEtherVPN/SoftEtherVPN.git && cd SoftEtherVPN
 
 # Build
-RUN cd /SoftEtherVPN && CMAKE_FLAGS="-DSE_PIDDIR=/run/softether -DSE_LOGDIR=/var/log/softether -DSE_DBDIR=/var/lib/softether" ./configure && make -j5 -C build
+RUN cd /SoftEtherVPN && ./configure && make -j5 -C build
 
 # Copy files
 RUN cp -rp /SoftEtherVPN/build/vpnserver /usr/local/bin/ && cp -rp /SoftEtherVPN/build/vpncmd /usr/local/bin/ && cp -rp /SoftEtherVPN/build/hamcore.se2 /usr/local/bin/
